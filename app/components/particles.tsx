@@ -78,6 +78,7 @@ export default function Particles({
 		dx: number;
 		dy: number;
 		magnetism: number;
+		color: string;
 	};
 
 	const resizeCanvas = () => {
@@ -104,6 +105,7 @@ export default function Particles({
 		const dx = (Math.random() - 0.5) * 0.2;
 		const dy = (Math.random() - 0.5) * 0.2;
 		const magnetism = 0.1 + Math.random() * 4;
+		const color = `rgb(${Math.floor(Math.random() * 50 + 205)}, ${Math.floor(Math.random() * 50)}, ${Math.floor(Math.random() * 100 + 155)})`;
 		return {
 			x,
 			y,
@@ -115,16 +117,17 @@ export default function Particles({
 			dx,
 			dy,
 			magnetism,
+			color,
 		};
 	};
 
 	const drawCircle = (circle: Circle, update = false) => {
 		if (context.current) {
-			const { x, y, translateX, translateY, size, alpha } = circle;
+			const { x, y, translateX, translateY, size, alpha, color } = circle;
 			context.current.translate(translateX, translateY);
 			context.current.beginPath();
 			context.current.arc(x, y, size, 0, 2 * Math.PI);
-			context.current.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+			context.current.fillStyle = color.replace('rgb', 'rgba').replace(')', `, ${alpha})`);
 			context.current.fill();
 			context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
 
